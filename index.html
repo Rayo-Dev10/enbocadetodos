@@ -26,7 +26,7 @@
       <span class="brand__mark">EB</span>
       <span class="brand__copy">
         <strong>En Boca de Todos</strong>
-        <small>Arepas que si llenan</small>
+        <small>Arepas que sí llenan</small>
       </span>
     </a>
 
@@ -54,7 +54,7 @@
             Ver menú
           </button>
           <button class="btn btn--secondary" id="heroCartButton" type="button">
-            Ver carrito
+            Ver pedido
           </button>
         </div>
       </div>
@@ -62,10 +62,10 @@
 
     <section class="section-heading">
       <div>
-        <p class="eyebrow">Menu</p>
+        <p class="eyebrow">Menú</p>
         <h2>Arma tu arepa ideal</h2>
       </div>
-      <p class="section-heading__note">Todo el flujo esta pensado primero para mobile, pero funciona igual de bien en escritorio.</p>
+      <p class="section-heading__note">El flujo esta pensado primero para mobile, pero responde bien tambien en escritorio.</p>
     </section>
 
     <section class="catalog-grid" id="catalogGrid" aria-label="Catalogo de productos"></section>
@@ -73,10 +73,15 @@
     <section class="checkout-section" id="checkoutSection" hidden aria-live="polite"></section>
   </main>
 
-  <button class="cart-fab" id="cartFab" type="button" aria-label="Abrir carrito flotante">
-    <span class="cart-fab__label">Ver pedido</span>
-    <span class="cart-fab__badge" id="cartBadgeFab" aria-live="polite">0</span>
-  </button>
+  <div class="quick-actions" id="quickActions" hidden>
+    <button class="quick-actions__cart" id="cartFab" type="button" aria-label="Abrir carrito rápido">
+      <span class="quick-actions__label">Ver pedido</span>
+      <span class="quick-actions__badge" id="cartBadgeFab" aria-live="polite">0</span>
+    </button>
+    <button class="quick-actions__order" id="orderNowButton" type="button">
+      Ordenar ahora
+    </button>
+  </div>
 
   <div class="overlay" id="productOverlay" hidden>
     <section
@@ -96,6 +101,16 @@
       aria-modal="true"
       aria-labelledby="cartSheetTitle">
     </aside>
+  </div>
+
+  <div class="overlay overlay--center" id="deliveryOverlay" hidden>
+    <section
+      class="sheet sheet--prompt"
+      id="deliverySheet"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="deliverySheetTitle">
+    </section>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>

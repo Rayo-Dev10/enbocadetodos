@@ -44,6 +44,50 @@ function renderAdditionGroups(additionGroups, selectedAdditions) {
   `).join("");
 }
 
+function renderQuantityControls(draft, flow) {
+  if (flow) {
+    return `
+      <section class="builder-group">
+        <div class="builder-group__header">
+          <h3>Personalización individual</h3>
+          <span>Arepa ${flow.currentStep} de ${flow.totalQuantity}</span>
+        </div>
+        <p class="builder-flow-note">
+          Tomamos la configuración anterior como base. Cambia solo lo que quieras distinto para esta arepa.
+        </p>
+        <input type="hidden" name="quantity" value="${flow.totalQuantity}">
+        <input type="hidden" name="splitItems" value="on">
+      </section>
+    `;
+  }
+
+  return `
+    <section class="builder-group">
+      <div class="builder-group__header">
+        <h3>Cantidad</h3>
+        <span>Define cuántas vas a pedir</span>
+      </div>
+
+      <div class="builder-quantity">
+        <div class="stepper stepper--builder" aria-label="Cambiar cantidad">
+          <button type="button" data-action="decrease-builder-quantity" aria-label="Restar una unidad">
+            -
+          </button>
+          <input class="quantity-input" id="productQuantity" name="quantity" type="number" min="1" max="12" inputmode="numeric" value="${draft.quantity}">
+          <button type="button" data-action="increase-builder-quantity" aria-label="Sumar una unidad">
+            +
+          </button>
+        </div>
+
+        <label class="builder-toggle">
+          <input type="checkbox" name="splitItems" ${draft.splitItems ? "checked" : ""}>
+          <span>Quiero personalizar cada una diferente</span>
+        </label>
+      </div>
+    </section>
+  `;
+}
+
 export function calculateSubtotal(basePrice, additions) {
   return additions.reduce((sum, addition) => sum + addition.price, basePrice);
 }
@@ -62,22 +106,53 @@ export function readProductForm(form, additionGroups, product) {
     }
   });
 
+  const quantity = Math.max(1, Math.min(12, Number(formData.get("quantity") || 1)));
+  const splitField = formData.get("splitItems");
+
   return {
     protein: formData.get("protein") || "",
     finish: formData.get("finish") || product.finishOptions[0] || "",
     sauces: formData.getAll("sauce"),
-    additions
+    additions,
+    quantity,
+    splitItems: splitField === "on"
   };
 }
 
-export function renderProductModal({ product, proteinOptions, sauces, additionGroups, draft, subtotal }) {
+export function getProductSubmitLabel({ draft, subtotal, flow }) {
+  if (flow) {
+    if (flow.currentStep < flow.totalQuantity) {
+      return `Guardar y seguir · ${formatCOP(subtotal)}`;
+    }
+
+    return `Añadir pedido completo · ${formatCOP(subtotal)}`;
+  }
+
+  if (draft.splitItems && draft.quantity > 1) {
+    return `Empezar personalización por unidad · ${formatCOP(subtotal)}`;
+  }
+
+  const quantityCopy = draft.quantity > 1 ? `x${draft.quantity} ` : "";
+  return `Añadir ${quantityCopy}al carrito · ${formatCOP(subtotal)}`;
+}
+
+export function renderProductModal({
+  product,
+  proteinOptions,
+  sauces,
+  additionGroups,
+  draft,
+  subtotal,
+  submitLabel,
+  flow
+}) {
   return `
     <div class="sheet__header">
       <div>
         <p class="eyebrow">Personaliza tu pedido</p>
         <h2 id="productSheetTitle">${product.name}</h2>
       </div>
-      <button class="icon-button" type="button" data-action="close-product" aria-label="Cerrar personalizacion">
+      <button class="icon-button" type="button" data-action="close-product" aria-label="Cerrar personalización">
         Cerrar
       </button>
     </div>
@@ -91,11 +166,13 @@ export function renderProductModal({ product, proteinOptions, sauces, additionGr
     </div>
 
     <form class="builder-form" id="productForm" novalidate>
+      ${renderQuantityControls(draft, flow)}
+
       ${product.requiresProtein ? `
         <section class="builder-group">
           <div class="builder-group__header">
-            <h3>Proteina</h3>
-            <span>Elige una opcion</span>
+            <h3>Proteína</h3>
+            <span>Elige una opción</span>
           </div>
           <div class="chip-grid">
             ${renderChoiceChips("protein", proteinOptions, draft.protein, true)}
@@ -105,7 +182,7 @@ export function renderProductModal({ product, proteinOptions, sauces, additionGr
 
       <section class="builder-group">
         <div class="builder-group__header">
-          <h3>Terminacion incluida</h3>
+          <h3>Terminación incluida</h3>
           <span>Escoge el cierre fresco</span>
         </div>
         <div class="chip-grid">
@@ -128,7 +205,7 @@ export function renderProductModal({ product, proteinOptions, sauces, additionGr
       <section class="builder-group builder-group--summary">
         <div class="builder-group__header">
           <h3>Incluye de base</h3>
-          <span>Para que sepas exactamente que va</span>
+          <span>Para que sepas exactamente qué va</span>
         </div>
         <ul class="builder-summary">
           ${product.included.map((item) => `<li>${item}</li>`).join("")}
@@ -138,7 +215,7 @@ export function renderProductModal({ product, proteinOptions, sauces, additionGr
       <div class="builder-footer">
         <p class="builder-footer__note">El carrito se guarda en este dispositivo.</p>
         <button class="btn btn--primary btn--full" type="submit" id="addToCartButton">
-          Añadir al carrito · ${formatCOP(subtotal)}
+          ${submitLabel}
         </button>
       </div>
     </form>

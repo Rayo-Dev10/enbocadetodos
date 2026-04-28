@@ -1,6 +1,6 @@
 import { formatCOP } from "../utils/currency.js";
 
-export function renderCheckout({ cart, total, business, isOnline }) {
+export function renderCheckout({ cart, total, business, isOnline, deliveryAddress }) {
   if (!cart.length) {
     return `
       <div class="checkout-card">
@@ -18,7 +18,7 @@ export function renderCheckout({ cart, total, business, isOnline }) {
     <div class="section-heading section-heading--checkout">
       <div>
         <p class="eyebrow">Checkout</p>
-        <h2>Último paso antes de WhatsApp</h2>
+        <h2>Listo para salir a WhatsApp</h2>
       </div>
       <p class="section-heading__note">${business.deliveryHint}</p>
     </div>
@@ -31,7 +31,7 @@ export function renderCheckout({ cart, total, business, isOnline }) {
             <li>
               <div>
                 <strong>${item.quantity}x ${item.productName}</strong>
-                <p>${item.finish}</p>
+                ${item.finish ? `<p>${item.finish}</p>` : ""}
                 ${item.protein ? `<p>${item.protein}</p>` : ""}
                 ${item.additions.length ? `<p>${item.additions.map((addition) => addition.name).join(", ")}</p>` : ""}
               </div>
@@ -46,7 +46,7 @@ export function renderCheckout({ cart, total, business, isOnline }) {
       </section>
 
       <form class="checkout-card checkout-card--form" id="checkoutForm">
-        <h3>Dirección de entrega</h3>
+        <h3>Lugar de entrega</h3>
         <label class="field" for="deliveryAddress">
           <span>¿Dónde entregamos tu pedido?</span>
           <textarea
@@ -56,11 +56,11 @@ export function renderCheckout({ cart, total, business, isOnline }) {
             minlength="10"
             maxlength="180"
             required
-            placeholder="Ej: Casa de Mauricio Hoyos, frente al parque"></textarea>
+            placeholder="Ej: Casa de Mauricio Hoyos, frente al parque">${deliveryAddress}</textarea>
         </label>
 
         <p class="checkout-note ${isOnline ? "" : "checkout-note--alert"}">
-          ${isOnline ? "Tu carrito se conserva incluso después de ordenar por WhatsApp." : "Sin conexión puedes revisar el pedido, pero no enviarlo por WhatsApp todavía."}
+          ${isOnline ? "Si ya está todo listo, puedes ordenar ahora sin volver al final del sitio." : "Sin conexión puedes revisar el pedido, pero no enviarlo por WhatsApp todavía."}
         </p>
 
         <div class="checkout-actions">

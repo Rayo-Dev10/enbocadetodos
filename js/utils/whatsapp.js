@@ -4,7 +4,7 @@ function cleanCurrency(value) {
   return formatCOP(value).replace(/\u00A0/g, " ");
 }
 
-export function buildWhatsAppUrl({ cart, deliveryAddress, business }) {
+export function buildWhatsAppMessage({ cart, deliveryAddress, business }) {
   const lines = [
     "🍽️ *NUEVO PEDIDO*",
     `🏪 *${business.name.toUpperCase()}*`,
@@ -45,8 +45,24 @@ export function buildWhatsAppUrl({ cart, deliveryAddress, business }) {
   lines.push(`💰 *TOTAL: ${cleanCurrency(total)}*`);
   lines.push("");
   lines.push(`📍 *ENTREGAR EN:* ${deliveryAddress}`);
-  lines.push("✅ Quedo atento(a). ¡Gracias!");
 
-  const params = new URLSearchParams({ text: lines.join("\n") });
-  return `https://wa.me/${business.whatsappNumber}?${params.toString()}`;
+  return lines.join("\n");
+}
+
+export function buildWhatsAppTargets(payload) {
+  const message = buildWhatsAppMessage(payload);
+  const encodedMessage = encodeURIComponent(message);
+  const encodedNumber = encodeURIComponent(payload.business.whatsappNumber);
+  const httpsUrl = `https://wa.me/${payload.business.whatsappNumber}?text=${encodedMessage}`;
+  const apiUrl = `https://api.whatsapp.com/send?phone=${encodedNumber}&text=${encodedMessage}`;
+  const schemeUrl = `whatsapp://send?phone=${encodedNumber}&text=${encodedMessage}`;
+  const intentUrl = `intent://send/?phone=${encodedNumber}&text=${encodedMessage}#Intent;scheme=whatsapp;S.browser_fallback_url=${encodeURIComponent(httpsUrl)};end`;
+
+  return {
+    message,
+    httpsUrl,
+    apiUrl,
+    schemeUrl,
+    intentUrl
+  };
 }

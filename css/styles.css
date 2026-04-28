@@ -135,7 +135,7 @@ a {
 .app-shell {
   width: var(--shell-width);
   margin: 0 auto;
-  padding: 18px 0 120px;
+  padding: 18px 0 160px;
 }
 
 .hero {
@@ -327,6 +327,8 @@ a {
 .cart-fab,
 .icon-button,
 .link-button,
+.quick-actions__cart,
+.quick-actions__order,
 .stepper button {
   transition:
     transform var(--transition),
@@ -353,6 +355,8 @@ a {
 .cart-fab:hover,
 .icon-button:hover,
 .link-button:hover,
+.quick-actions__cart:hover,
+.quick-actions__order:hover,
 .stepper button:hover,
 .product-card:hover {
   transform: translateY(-2px);
@@ -417,6 +421,65 @@ a {
   font-size: 0.96rem;
 }
 
+.quick-actions {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 25;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(180px, 1.05fr);
+  gap: 12px;
+  width: min(calc(100vw - 24px), 720px);
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  background: rgba(19, 13, 8, 0.92);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px);
+  transform: translateX(-50%);
+}
+
+.quick-actions__cart,
+.quick-actions__order {
+  min-height: 58px;
+  border: 0;
+  border-radius: 20px;
+  font-weight: 900;
+}
+
+.quick-actions__cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.quick-actions__order {
+  background: linear-gradient(135deg, #ffb02e, #ff6414);
+  color: #2d1200;
+  box-shadow: 0 14px 32px rgba(255, 122, 24, 0.3);
+}
+
+.quick-actions__label {
+  font-size: 0.98rem;
+}
+
+.quick-actions__badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #331400;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -428,6 +491,11 @@ a {
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition);
+}
+
+.overlay--center {
+  align-items: center;
+  justify-items: center;
 }
 
 .overlay.is-open {
@@ -452,6 +520,17 @@ a {
 
 .sheet--cart {
   width: min(100%, 540px);
+}
+
+.sheet--prompt {
+  width: min(calc(100vw - 24px), 520px);
+  margin: 0;
+  border-radius: 30px;
+  transform: scale(0.96);
+}
+
+.overlay--center.is-open .sheet--prompt {
+  transform: scale(1);
 }
 
 .sheet__header {
@@ -521,6 +600,48 @@ a {
 .builder-summary,
 .empty-state p {
   color: var(--text-muted);
+}
+
+.builder-quantity,
+.prompt-form {
+  display: grid;
+  gap: 14px;
+}
+
+.builder-flow-note,
+.cart-summary__address {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.builder-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-soft);
+}
+
+.builder-toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+
+.stepper--builder {
+  justify-content: space-between;
+  width: min(100%, 260px);
+}
+
+.quantity-input {
+  width: 72px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-align: center;
 }
 
 .chip-grid {
@@ -645,6 +766,11 @@ a {
   border-radius: 22px;
 }
 
+.cart-summary__copy {
+  display: grid;
+  gap: 6px;
+}
+
 .empty-state {
   display: grid;
   gap: 16px;
@@ -687,6 +813,7 @@ textarea {
 
 textarea:focus,
 button:focus-visible,
+.quantity-input:focus-visible,
 .chip__input:focus-visible + span {
   outline: 2px solid rgba(255, 209, 102, 0.9);
   outline-offset: 3px;
@@ -753,6 +880,13 @@ button:focus-visible,
   .product-card__footer .btn {
     width: 100%;
     margin-left: 0;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+    width: min(calc(100vw - 16px), 520px);
+    bottom: 10px;
+    padding: 10px;
   }
 }
 

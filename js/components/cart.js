@@ -4,10 +4,10 @@ function renderItemMeta(item) {
   const details = [];
 
   if (item.protein) {
-    details.push(`Proteina: ${item.protein}`);
+    details.push(`Proteína: ${item.protein}`);
   }
   if (item.finish) {
-    details.push(`Terminacion: ${item.finish}`);
+    details.push(`Terminación: ${item.finish}`);
   }
   if (item.sauces.length) {
     details.push(`Salsas: ${item.sauces.join(", ")}`);
@@ -19,13 +19,13 @@ function renderItemMeta(item) {
   return details.map((detail) => `<p>${detail}</p>`).join("");
 }
 
-export function renderCart({ cart, total }) {
+export function renderCart({ cart, total, deliveryAddress }) {
   if (!cart.length) {
     return `
       <div class="sheet__header">
         <div>
           <p class="eyebrow">Carrito</p>
-          <h2 id="cartSheetTitle">Tu pedido esta vacio</h2>
+          <h2 id="cartSheetTitle">Tu pedido está vacío</h2>
         </div>
         <button class="icon-button" type="button" data-action="close-cart" aria-label="Cerrar carrito">
           Cerrar
@@ -33,7 +33,7 @@ export function renderCart({ cart, total }) {
       </div>
 
       <div class="empty-state">
-        <p>Aun no has agregado arepas. Empieza por una base y la personalizamos desde ahi.</p>
+        <p>Aún no has agregado arepas. Empieza por una base y la personalizamos desde ahí.</p>
         <button class="btn btn--primary" type="button" data-action="close-cart">
           Volver al menú
         </button>
@@ -82,16 +82,17 @@ export function renderCart({ cart, total }) {
     </ul>
 
     <div class="cart-summary">
-      <div>
+      <div class="cart-summary__copy">
         <p class="eyebrow">Total actual</p>
         <strong>${formatCOP(total)}</strong>
+        <p class="cart-summary__address">${deliveryAddress ? `Entrega: ${deliveryAddress}` : "Falta confirmar el lugar de entrega."}</p>
       </div>
       <div class="cart-summary__actions">
         <button class="btn btn--ghost" type="button" data-action="clear-cart">
           Vaciar
         </button>
-        <button class="btn btn--primary" type="button" data-action="go-checkout">
-          Continuar pedido
+        <button class="btn btn--primary" type="button" data-action="order-now">
+          Ordenar ahora
         </button>
       </div>
     </div>
