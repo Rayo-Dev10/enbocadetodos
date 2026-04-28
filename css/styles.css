@@ -246,12 +246,16 @@ a {
 
 .catalog-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  align-items: start;
   gap: 18px;
   margin-top: 18px;
 }
 
 .product-card {
   display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100%;
   overflow: hidden;
   border-radius: 28px;
 }
@@ -309,6 +313,7 @@ a {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 14px;
+  margin-top: auto;
   padding: 0 22px 22px;
 }
 
@@ -858,10 +863,6 @@ button:focus-visible,
 }
 
 @media (min-width: 720px) {
-  .catalog-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .checkout-grid {
     grid-template-columns: 1.1fr 0.9fr;
   }
@@ -890,9 +891,27 @@ button:focus-visible,
   }
 }
 
+@media (min-width: 421px) and (max-width: 767px) {
+  .quick-actions {
+    width: min(calc(100vw - 20px), 620px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .app-shell {
+    padding-bottom: 184px;
+  }
+
+  .quick-actions {
+    width: min(calc(100vw - 40px), 640px);
+    bottom: 16px;
+  }
+}
+
 @media (min-width: 960px) {
-  .catalog-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .quick-actions {
+    width: min(calc(100vw - 48px), 560px);
+    bottom: 24px;
   }
 
   .overlay {
@@ -910,6 +929,20 @@ button:focus-visible,
 
   .overlay.is-open .sheet--cart {
     transform: translateX(0);
+  }
+}
+
+@media (min-width: 1200px) {
+  .app-shell {
+    padding-bottom: 196px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .quick-actions {
+    width: min(calc(100vw - 64px), 600px);
   }
 }
 
