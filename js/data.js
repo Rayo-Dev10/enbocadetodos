@@ -3,7 +3,7 @@ export const BUSINESS = {
   whatsappNumber: "573013068968",
   whatsappDisplay: "+57 301 306 8968",
   city: "Colombia",
-  deliveryHint: "Pago y coordinacion final por WhatsApp."
+  deliveryHint: "Pago y coordinación final por WhatsApp."
 };
 
 export const PROTEIN_OPTIONS = [
@@ -13,7 +13,7 @@ export const PROTEIN_OPTIONS = [
 
 export const SAUCES = [
   "Cilantro",
-  "Pimenton ahumado",
+  "Pimentón ahumado",
   "Aguacate",
   "Humo",
   "Ahumada picante",
@@ -42,7 +42,7 @@ export const ADDITION_GROUPS = [
     note: "$4.000 c/u",
     items: [
       "Carne molida",
-      "Chicharron",
+      "Chicharrón",
       "Desmechada extra",
       "Mollejas"
     ]
@@ -52,10 +52,10 @@ export const ADDITION_GROUPS = [
 export const PRODUCTS = [
   {
     id: "clasica",
-    name: "Arepa Clasica Full",
+    name: "Arepa Clásica Full",
     price: 11000,
     tagline: "Entrada segura",
-    description: "Base potente con queso, jamon, maicitos y una terminacion fresca para elegir.",
+    description: "Base potente con queso, jamón, maicitos y una terminación fresca para elegir.",
     image: "./assets/img/clasica.svg",
     requiresProtein: true,
     finishOptions: [
@@ -63,9 +63,9 @@ export const PRODUCTS = [
       "Guacamole"
     ],
     included: [
-      "1 proteina a eleccion",
+      "1 proteína a elección",
       "Queso",
-      "Jamon",
+      "Jamón",
       "Maicitos",
       "2 salsas de la casa"
     ]
@@ -74,7 +74,7 @@ export const PRODUCTS = [
     id: "mixta",
     name: "Arepa Mixta",
     price: 14000,
-    tagline: "La mas balanceada",
+    tagline: "La más balanceada",
     description: "Pollo y res con platanito maduro, bastante queso y el contraste justo de cremoso y crocante.",
     image: "./assets/img/mixta.svg",
     requiresProtein: false,
@@ -86,7 +86,7 @@ export const PRODUCTS = [
       "Pollo y res",
       "Platanito maduro",
       "Queso",
-      "Jamon",
+      "Jamón",
       "Maicitos",
       "Salsas de la casa"
     ]
@@ -96,7 +96,7 @@ export const PRODUCTS = [
     name: "La Especial",
     price: 17000,
     tagline: "La que resuelve el hambre",
-    description: "La mas cargada de la casa: doble proteina, chicharron, mollejas, codorniz y platanito.",
+    description: "La más cargada de la casa: doble proteína, chicharrón, mollejas, codorniz y platanito.",
     image: "./assets/img/especial.svg",
     requiresProtein: false,
     finishOptions: [
@@ -105,7 +105,7 @@ export const PRODUCTS = [
     ],
     included: [
       "Pollo y res",
-      "Chicharron",
+      "Chicharrón",
       "Mollejas",
       "Huevos de codorniz",
       "Platanito maduro",

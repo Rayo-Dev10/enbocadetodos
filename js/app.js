@@ -1,4 +1,4 @@
-import { ADDITION_GROUPS, BUSINESS, PRODUCTS, PROTEIN_OPTIONS, SAUCES } from "./data.js";
+﻿import { ADDITION_GROUPS, BUSINESS, PRODUCTS, PROTEIN_OPTIONS, SAUCES } from "./data.js";
 import { renderCart } from "./components/cart.js";
 import { renderCatalog } from "./components/catalog.js";
 import { renderCheckout } from "./components/checkout.js";
@@ -399,7 +399,7 @@ function handleCheckoutSubmit(event) {
   }
 
   if (!navigator.onLine) {
-    showToast("Necesitas conexion para abrir WhatsApp.");
+    showToast("Necesitas conexión para ordenar por WhatsApp.");
     return;
   }
 
@@ -413,7 +413,7 @@ function handleCheckoutSubmit(event) {
   });
 
   window.open(url, "_blank", "noopener,noreferrer");
-  showToast("Pedido listo en WhatsApp. El carrito sigue guardado por seguridad.");
+  showToast("Pedido listo para WhatsApp. El carrito sigue guardado por seguridad.");
 }
 
 function handleCheckoutInput(event) {
@@ -538,3 +538,4 @@ function init() {
 if (typeof document !== "undefined") {
   init();
 }
+

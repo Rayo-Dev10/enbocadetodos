@@ -5,10 +5,10 @@ export function renderCheckout({ cart, total, business, isOnline }) {
     return `
       <div class="checkout-card">
         <p class="eyebrow">Checkout</p>
-        <h2>Tu carrito esta vacio</h2>
-        <p>Cuando agregues una arepa, aqui apareceran el resumen final y el boton para abrir WhatsApp.</p>
+        <h2>Tu carrito está vacío</h2>
+        <p>Cuando agregues una arepa, aquí aparecerán el resumen final y el botón para ordenar ahora.</p>
         <button class="btn btn--primary" type="button" data-action="back-to-menu">
-          Volver al menu
+          Volver al menú
         </button>
       </div>
     `;
@@ -18,7 +18,7 @@ export function renderCheckout({ cart, total, business, isOnline }) {
     <div class="section-heading section-heading--checkout">
       <div>
         <p class="eyebrow">Checkout</p>
-        <h2>Ultimo paso antes de WhatsApp</h2>
+        <h2>Último paso antes de WhatsApp</h2>
       </div>
       <p class="section-heading__note">${business.deliveryHint}</p>
     </div>
@@ -46,9 +46,9 @@ export function renderCheckout({ cart, total, business, isOnline }) {
       </section>
 
       <form class="checkout-card checkout-card--form" id="checkoutForm">
-        <h3>Direccion de entrega</h3>
+        <h3>Dirección de entrega</h3>
         <label class="field" for="deliveryAddress">
-          <span>¿Donde entregamos tu pedido?</span>
+          <span>¿Dónde entregamos tu pedido?</span>
           <textarea
             id="deliveryAddress"
             name="deliveryAddress"
@@ -60,7 +60,7 @@ export function renderCheckout({ cart, total, business, isOnline }) {
         </label>
 
         <p class="checkout-note ${isOnline ? "" : "checkout-note--alert"}">
-          ${isOnline ? "Tu carrito se conserva incluso despues de abrir WhatsApp." : "Sin conexion puedes revisar el pedido, pero no abrir WhatsApp todavia."}
+          ${isOnline ? "Tu carrito se conserva incluso después de ordenar por WhatsApp." : "Sin conexión puedes revisar el pedido, pero no enviarlo por WhatsApp todavía."}
         </p>
 
         <div class="checkout-actions">
@@ -68,7 +68,7 @@ export function renderCheckout({ cart, total, business, isOnline }) {
             Seguir pidiendo
           </button>
           <button class="btn btn--primary" type="submit">
-            Abrir WhatsApp
+            Ordenar ahora
           </button>
         </div>
       </form>

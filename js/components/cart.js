@@ -35,7 +35,7 @@ export function renderCart({ cart, total }) {
       <div class="empty-state">
         <p>Aun no has agregado arepas. Empieza por una base y la personalizamos desde ahi.</p>
         <button class="btn btn--primary" type="button" data-action="close-cart">
-          Volver al menu
+          Volver al menú
         </button>
       </div>
     `;
