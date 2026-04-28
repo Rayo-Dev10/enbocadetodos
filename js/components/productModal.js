@@ -1,4 +1,4 @@
-import { formatCOP } from "../utils/currency.js";
+﻿import { formatCOP } from "../utils/currency.js";
 
 function renderChoiceChips(name, values, selectedValue, required = false) {
   return values.map((value, index) => `
@@ -53,7 +53,7 @@ function renderQuantityControls(draft, flow) {
           <span>Arepa ${flow.currentStep} de ${flow.totalQuantity}</span>
         </div>
         <p class="builder-flow-note">
-          Tomamos la configuración anterior como base. Cambia solo lo que quieras distinto para esta arepa.
+          Esta arepa empieza limpia para que la personalices desde cero.
         </p>
         <input type="hidden" name="quantity" value="${flow.totalQuantity}">
         <input type="hidden" name="splitItems" value="on">
@@ -65,7 +65,7 @@ function renderQuantityControls(draft, flow) {
     <section class="builder-group">
       <div class="builder-group__header">
         <h3>Cantidad</h3>
-        <span>Define cuántas vas a pedir</span>
+        <span>Define cuÃ¡ntas vas a pedir</span>
       </div>
 
       <div class="builder-quantity">
@@ -122,18 +122,18 @@ export function readProductForm(form, additionGroups, product) {
 export function getProductSubmitLabel({ draft, subtotal, flow }) {
   if (flow) {
     if (flow.currentStep < flow.totalQuantity) {
-      return `Guardar y seguir · ${formatCOP(subtotal)}`;
+      return `Guardar y seguir Â· ${formatCOP(subtotal)}`;
     }
 
-    return `Añadir pedido completo · ${formatCOP(subtotal)}`;
+    return `AÃ±adir pedido completo Â· ${formatCOP(subtotal)}`;
   }
 
   if (draft.splitItems && draft.quantity > 1) {
-    return `Empezar personalización por unidad · ${formatCOP(subtotal)}`;
+    return `Empezar personalizaciÃ³n por unidad Â· ${formatCOP(subtotal)}`;
   }
 
   const quantityCopy = draft.quantity > 1 ? `x${draft.quantity} ` : "";
-  return `Añadir ${quantityCopy}al carrito · ${formatCOP(subtotal)}`;
+  return `AÃ±adir ${quantityCopy}al carrito Â· ${formatCOP(subtotal)}`;
 }
 
 export function renderProductModal({
@@ -152,7 +152,7 @@ export function renderProductModal({
         <p class="eyebrow">Personaliza tu pedido</p>
         <h2 id="productSheetTitle">${product.name}</h2>
       </div>
-      <button class="icon-button" type="button" data-action="close-product" aria-label="Cerrar personalización">
+      <button class="icon-button" type="button" data-action="close-product" aria-label="Cerrar personalizaciÃ³n">
         Cerrar
       </button>
     </div>
@@ -171,8 +171,8 @@ export function renderProductModal({
       ${product.requiresProtein ? `
         <section class="builder-group">
           <div class="builder-group__header">
-            <h3>Proteína</h3>
-            <span>Elige una opción</span>
+            <h3>ProteÃ­na</h3>
+            <span>Elige una opciÃ³n</span>
           </div>
           <div class="chip-grid">
             ${renderChoiceChips("protein", proteinOptions, draft.protein, true)}
@@ -182,7 +182,7 @@ export function renderProductModal({
 
       <section class="builder-group">
         <div class="builder-group__header">
-          <h3>Terminación incluida</h3>
+          <h3>TerminaciÃ³n incluida</h3>
           <span>Escoge el cierre fresco</span>
         </div>
         <div class="chip-grid">
@@ -205,7 +205,7 @@ export function renderProductModal({
       <section class="builder-group builder-group--summary">
         <div class="builder-group__header">
           <h3>Incluye de base</h3>
-          <span>Para que sepas exactamente qué va</span>
+          <span>Para que sepas exactamente quÃ© va</span>
         </div>
         <ul class="builder-summary">
           ${product.included.map((item) => `<li>${item}</li>`).join("")}
@@ -221,3 +221,4 @@ export function renderProductModal({
     </form>
   `;
 }
+

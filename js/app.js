@@ -427,7 +427,7 @@ function bindProductModalEvents() {
 
       if (state.productFlow.items.length < state.productFlow.totalQuantity) {
         state.modalDraft = {
-          ...normalizedDraft,
+          ...getDefaultDraft(product),
           quantity: state.productFlow.totalQuantity,
           splitItems: true
         };
