@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pide arepas personalizadas de En Boca de Todos y envia tu orden directo por WhatsApp.">
+  <meta name="theme-color" content="#ff7a18">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta property="og:title" content="En Boca de Todos">
+  <meta property="og:description" content="Arepas potentes, personalizadas y listas para pedir por WhatsApp.">
+  <meta property="og:type" content="website">
+  <title>En Boca de Todos</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="offline-banner" id="offlineBanner" hidden>
+    Puedes armar tu pedido sin conexion, pero WhatsApp necesita internet para enviarlo.
+  </div>
+
+  <header class="app-header">
+    <a class="brand" href="#top" aria-label="Ir al inicio de En Boca de Todos">
+      <span class="brand__mark">EB</span>
+      <span class="brand__copy">
+        <strong>En Boca de Todos</strong>
+        <small>Arepas que si llenan</small>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <button class="btn btn--ghost" id="installButton" type="button" hidden>
+        Instalar
+      </button>
+      <button class="cart-trigger" id="cartButton" type="button" aria-label="Abrir carrito">
+        <span>Carrito</span>
+        <span class="cart-trigger__badge" id="cartBadgeHeader" aria-live="polite">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-shell" id="top">
+    <section class="hero" id="menuSection">
+      <div class="hero__copy">
+        <p class="eyebrow">PWA lista para pedir</p>
+        <h1>Tu pedido de arepas queda armado en menos de un minuto.</h1>
+        <p class="hero__lede">
+          Personaliza cada arepa, guarda el carrito en tu telefono y manda la orden por WhatsApp sin llamadas ni formularios eternos.
+        </p>
+        <div class="hero__actions">
+          <button class="btn btn--primary" id="scrollMenuButton" type="button">
+            Ver menu
+          </button>
+          <button class="btn btn--secondary" id="heroCartButton" type="button">
+            Ver carrito
+          </button>
+        </div>
+      </div>
+
+      <aside class="hero__card">
+        <p class="eyebrow">Pedido rapido</p>
+        <ul class="hero__highlights">
+          <li>3 recetas base listas para personalizar</li>
+          <li>Extras y salsas con precio en vivo</li>
+          <li>Checkout directo al WhatsApp del negocio</li>
+        </ul>
+        <p class="hero__note">Entrega coordinada al <strong>+57 301 306 8968</strong></p>
+      </aside>
+    </section>
+
+    <section class="section-heading">
+      <div>
+        <p class="eyebrow">Menu</p>
+        <h2>Arma tu arepa ideal</h2>
+      </div>
+      <p class="section-heading__note">Todo el flujo esta pensado primero para mobile, pero funciona igual de bien en escritorio.</p>
+    </section>
+
+    <section class="catalog-grid" id="catalogGrid" aria-label="Catalogo de productos"></section>
+
+    <section class="checkout-section" id="checkoutSection" hidden aria-live="polite"></section>
+  </main>
+
+  <button class="cart-fab" id="cartFab" type="button" aria-label="Abrir carrito flotante">
+    <span class="cart-fab__label">Ver pedido</span>
+    <span class="cart-fab__badge" id="cartBadgeFab" aria-live="polite">0</span>
+  </button>
+
+  <div class="overlay" id="productOverlay" hidden>
+    <section
+      class="sheet sheet--product"
+      id="productSheet"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="productSheetTitle">
+    </section>
+  </div>
+
+  <div class="overlay" id="cartOverlay" hidden>
+    <aside
+      class="sheet sheet--cart"
+      id="cartSheet"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cartSheetTitle">
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
