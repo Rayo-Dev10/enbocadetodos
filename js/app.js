@@ -472,7 +472,7 @@ async function handleInstallClick() {
 }
 
 function registerServiceWorker() {
-  const isSupportedProtocol = window.location.protocol === "https:" || window.location.hostname === "localhost";
+  const isSupportedProtocol = window.isSecureContext;
 
   if (!("serviceWorker" in navigator) || !isSupportedProtocol) {
     return;

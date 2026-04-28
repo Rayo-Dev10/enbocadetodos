@@ -1,0 +1,20 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="720" rx="48" fill="#16100B"/>
+  <circle cx="790" cy="120" r="150" fill="#FF7A18" fill-opacity="0.16"/>
+  <circle cx="160" cy="586" r="130" fill="#FFD166" fill-opacity="0.1"/>
+  <ellipse cx="480" cy="408" rx="268" ry="164" fill="#E0B260"/>
+  <ellipse cx="480" cy="392" rx="272" ry="152" fill="#F7D384"/>
+  <path d="M238 390C296 350 388 326 482 326C576 326 668 350 726 390C668 448 576 476 482 476C388 476 296 448 238 390Z" fill="#D38A2C"/>
+  <path d="M286 386C348 356 412 344 482 344C552 344 616 356 678 386C622 424 558 444 482 444C406 444 342 424 286 386Z" fill="#FFF1D4"/>
+  <path d="M318 384C364 334 430 312 492 316C560 320 618 356 654 414" stroke="#F0BB40" stroke-width="34" stroke-linecap="round"/>
+  <path d="M316 420C350 406 388 396 430 392C470 388 510 392 548 404C588 416 620 422 648 418" stroke="#B44C1D" stroke-width="26" stroke-linecap="round"/>
+  <path d="M324 362C350 350 374 344 396 344" stroke="#F7F2E7" stroke-width="22" stroke-linecap="round"/>
+  <path d="M430 344C466 340 500 342 530 350" stroke="#83C26F" stroke-width="20" stroke-linecap="round"/>
+  <path d="M544 358C576 366 608 384 638 414" stroke="#E35C37" stroke-width="20" stroke-linecap="round"/>
+  <path d="M358 444C392 456 430 462 474 466C536 472 590 466 636 448" stroke="#6DAE57" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="400" cy="364" r="14" fill="#FFD978"/>
+  <circle cx="472" cy="350" r="16" fill="#FFD978"/>
+  <circle cx="548" cy="362" r="15" fill="#FFD978"/>
+  <text x="92" y="608" fill="#FFF5EB" font-family="Trebuchet MS, sans-serif" font-size="56" font-weight="700">Mixta</text>
+  <text x="92" y="654" fill="#D9B497" font-family="Trebuchet MS, sans-serif" font-size="28">Pollo, res y platanito maduro</text>
+</svg>

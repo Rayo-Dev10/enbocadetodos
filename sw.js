@@ -1,4 +1,5 @@
 const CACHE_VERSION = "ebdt-v1";
+const OFFLINE_DOCUMENT = new URL("./index.html", self.location.href).toString();
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -54,7 +55,7 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request).catch(async () => {
         const cache = await caches.open(CACHE_VERSION);
-        return cache.match("./index.html");
+        return cache.match(OFFLINE_DOCUMENT);
       })
     );
     return;

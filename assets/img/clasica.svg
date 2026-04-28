@@ -1,0 +1,17 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="720" rx="48" fill="#1A110B"/>
+  <circle cx="172" cy="122" r="120" fill="#FF8A24" fill-opacity="0.16"/>
+  <circle cx="812" cy="612" r="164" fill="#FFD166" fill-opacity="0.1"/>
+  <ellipse cx="480" cy="410" rx="258" ry="162" fill="#E1B65C"/>
+  <ellipse cx="480" cy="396" rx="262" ry="150" fill="#F2CB79"/>
+  <path d="M248 394C304 356 392 334 480 334C568 334 656 356 712 394C656 450 568 474 480 474C392 474 304 450 248 394Z" fill="#D58A2D"/>
+  <path d="M288 388C344 360 412 346 480 346C548 346 616 360 672 388C616 424 548 440 480 440C412 440 344 424 288 388Z" fill="#FFF1D6"/>
+  <path d="M324 390C352 362 386 344 432 332C456 326 484 324 512 326C550 330 584 344 616 374L624 384C596 400 560 410 516 414C452 420 392 412 324 390Z" fill="#F4C542"/>
+  <path d="M318 406C356 398 396 396 438 402C474 408 510 422 548 426C588 430 626 424 658 410" stroke="#C13F16" stroke-width="30" stroke-linecap="round"/>
+  <path d="M332 368C356 344 388 330 430 322C470 314 508 316 542 324C580 332 612 352 638 382" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-opacity="0.95"/>
+  <path d="M344 420C380 438 420 448 470 452C526 456 582 448 630 430" stroke="#3F9E59" stroke-width="22" stroke-linecap="round"/>
+  <path d="M350 376C382 368 408 366 434 368" stroke="#E66D4A" stroke-width="18" stroke-linecap="round"/>
+  <path d="M540 368C572 370 598 376 622 390" stroke="#F4E27B" stroke-width="18" stroke-linecap="round"/>
+  <text x="96" y="608" fill="#FFF5EB" font-family="Trebuchet MS, sans-serif" font-size="56" font-weight="700">Clasica Full</text>
+  <text x="96" y="654" fill="#D9B497" font-family="Trebuchet MS, sans-serif" font-size="28">Proteina a eleccion y extras al gusto</text>
+</svg>

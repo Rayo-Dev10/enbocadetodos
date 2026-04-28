@@ -1,0 +1,22 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="720" rx="48" fill="#150F0B"/>
+  <circle cx="170" cy="126" r="110" fill="#FFD166" fill-opacity="0.14"/>
+  <circle cx="808" cy="584" r="170" fill="#FF7A18" fill-opacity="0.14"/>
+  <ellipse cx="480" cy="412" rx="272" ry="166" fill="#DFB060"/>
+  <ellipse cx="480" cy="394" rx="278" ry="154" fill="#F7D486"/>
+  <path d="M232 392C290 346 386 320 480 320C574 320 670 346 728 392C670 454 574 482 480 482C386 482 290 454 232 392Z" fill="#D1872B"/>
+  <path d="M286 392C346 358 412 344 480 344C548 344 614 358 674 392C618 430 550 446 480 446C410 446 342 430 286 392Z" fill="#FFF0D5"/>
+  <path d="M308 392C336 360 374 334 422 322C482 306 540 312 592 338C620 352 644 372 664 398" stroke="#B8491D" stroke-width="34" stroke-linecap="round"/>
+  <path d="M304 430C338 436 374 442 414 452C460 464 510 470 566 464C600 460 632 452 662 438" stroke="#5F3A18" stroke-width="28" stroke-linecap="round"/>
+  <path d="M338 360C374 346 410 340 446 340" stroke="#87C86D" stroke-width="18" stroke-linecap="round"/>
+  <path d="M466 338C494 338 522 342 552 350" stroke="#F5C844" stroke-width="18" stroke-linecap="round"/>
+  <path d="M574 356C600 366 624 380 646 402" stroke="#E66B49" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="376" cy="404" r="22" fill="#C56D27"/>
+  <circle cx="430" cy="368" r="15" fill="#FFF7DF"/>
+  <circle cx="470" cy="350" r="13" fill="#FFF7DF"/>
+  <circle cx="516" cy="356" r="13" fill="#FFF7DF"/>
+  <circle cx="566" cy="384" r="20" fill="#C56D27"/>
+  <circle cx="622" cy="418" r="18" fill="#C56D27"/>
+  <text x="92" y="608" fill="#FFF5EB" font-family="Trebuchet MS, sans-serif" font-size="56" font-weight="700">La Especial</text>
+  <text x="92" y="654" fill="#D9B497" font-family="Trebuchet MS, sans-serif" font-size="28">Doble proteina, chicharron y mollejas</text>
+</svg>
