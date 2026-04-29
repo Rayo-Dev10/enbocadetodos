@@ -58,6 +58,7 @@ export const PRODUCTS = [
     description: "Base potente con queso, jamón, maicitos y una terminación fresca para elegir.",
     image: "./assets/img/clasica.svg",
     requiresProtein: true,
+    maxSauces: 2,
     finishOptions: [
       "Pico de gallo",
       "Guacamole"

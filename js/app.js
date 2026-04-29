@@ -72,14 +72,29 @@ function isStandaloneApp() {
   );
 }
 
-function getDefaultDraft(product) {
+function getDefaultDraft() {
   return {
     protein: "",
-    finish: product.finishOptions[0] || "",
+    finish: "",
     sauces: [],
     additions: [],
     quantity: 1,
     splitItems: false
+  };
+}
+
+function clampProductDraft(product, draft) {
+  const maxSauces = product.maxSauces || Number.POSITIVE_INFINITY;
+  const quantity = Math.max(1, Math.min(12, Number(draft.quantity || 1)));
+
+  return {
+    ...draft,
+    protein: draft.protein || "",
+    finish: draft.finish || "",
+    sauces: [...draft.sauces].slice(0, maxSauces),
+    additions: [...draft.additions],
+    quantity,
+    splitItems: Boolean(draft.splitItems && quantity > 1)
   };
 }
 
@@ -255,6 +270,7 @@ function syncQuickActions() {
   const totalUnits = countCartUnits(state.cart);
   const shouldShow = totalUnits > 0;
   dom.quickActions.hidden = !shouldShow;
+  dom.heroCartButton.hidden = !shouldShow;
 }
 
 function updateCartBadges() {
@@ -329,7 +345,7 @@ function getActiveFlowInfo() {
 
 function renderActiveProductModal() {
   const product = productById.get(state.activeProductId);
-  if (!product) {
+  if (!product || !state.modalDraft) {
     return;
   }
 
@@ -361,10 +377,11 @@ function updateProductDraftFromForm(form) {
     return;
   }
 
-  state.modalDraft = readProductForm(form, ADDITION_GROUPS, product);
+  state.modalDraft = clampProductDraft(product, readProductForm(form, ADDITION_GROUPS, product));
   const subtotal = calculateSubtotal(product.price, state.modalDraft.additions);
   const flow = getActiveFlowInfo();
   const button = form.querySelector("#addToCartButton");
+  const splitToggle = form.querySelector("#splitItemsToggle");
 
   if (button) {
     button.textContent = getProductSubmitLabel({
@@ -373,6 +390,28 @@ function updateProductDraftFromForm(form) {
       flow
     });
   }
+
+  if (splitToggle instanceof HTMLElement) {
+    splitToggle.hidden = state.modalDraft.quantity <= 1;
+    const splitInput = splitToggle.querySelector('input[name="splitItems"]');
+    if (splitInput instanceof HTMLInputElement) {
+      splitInput.checked = state.modalDraft.splitItems;
+    }
+  }
+}
+
+function focusMenu() {
+  const firstProductButton = dom.catalogGrid.querySelector("[data-action='open-product']");
+  dom.catalogGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  window.setTimeout(() => {
+    if (firstProductButton instanceof HTMLElement) {
+      firstProductButton.focus();
+      return;
+    }
+
+    dom.scrollMenuButton.focus();
+  }, 180);
 }
 
 function adjustBuilderQuantity(delta) {
@@ -393,18 +432,65 @@ function bindProductModalEvents() {
     return;
   }
 
-  form.addEventListener("input", () => updateProductDraftFromForm(form));
-  form.addEventListener("click", (event) => {
-    const actionElement = event.target.closest("[data-action]");
-    if (!actionElement) {
+  form.addEventListener("input", (event) => {
+    updateProductDraftFromForm(form);
+  });
+  form.addEventListener("change", (event) => {
+    const product = productById.get(state.activeProductId);
+    const input = event.target;
+
+    if (!(input instanceof HTMLInputElement) || !product) {
       return;
     }
 
-    if (actionElement.dataset.action === "increase-builder-quantity") {
-      adjustBuilderQuantity(1);
-    } else if (actionElement.dataset.action === "decrease-builder-quantity") {
-      adjustBuilderQuantity(-1);
+    if (input.type === "checkbox" && input.name === "sauce" && input.checked) {
+      const selectedSauces = form.querySelectorAll('input[name="sauce"]:checked').length;
+      if (product.maxSauces && selectedSauces > product.maxSauces) {
+        input.checked = false;
+        showToast(`Esta arepa permite máximo ${product.maxSauces} salsas.`);
+      }
     }
+
+    updateProductDraftFromForm(form);
+  });
+  form.addEventListener("pointerdown", (event) => {
+    const chip = event.target.closest(".chip");
+    const input = chip?.querySelector(".chip__input");
+
+    if (input instanceof HTMLInputElement && input.type === "radio") {
+      input.dataset.wasChecked = input.checked ? "true" : "false";
+    }
+  });
+  form.addEventListener("click", (event) => {
+    const actionElement = event.target.closest("[data-action]");
+    if (actionElement?.dataset.action === "increase-builder-quantity") {
+      adjustBuilderQuantity(1);
+      return;
+    }
+
+    if (actionElement?.dataset.action === "decrease-builder-quantity") {
+      adjustBuilderQuantity(-1);
+      return;
+    }
+
+    const chip = event.target.closest(".chip");
+    const input = chip?.querySelector(".chip__input");
+    const product = productById.get(state.activeProductId);
+
+    if (!(input instanceof HTMLInputElement) || !product) {
+      return;
+    }
+
+    if (input.type === "radio" && input.dataset.wasChecked === "true") {
+      event.preventDefault();
+      input.checked = false;
+      delete input.dataset.wasChecked;
+      updateProductDraftFromForm(form);
+      return;
+    }
+
+    delete input.dataset.wasChecked;
+    updateProductDraftFromForm(form);
   });
 
   form.addEventListener("submit", (event) => {
@@ -419,7 +505,7 @@ function bindProductModalEvents() {
       return;
     }
 
-    const draft = readProductForm(form, ADDITION_GROUPS, product);
+    const draft = clampProductDraft(product, readProductForm(form, ADDITION_GROUPS, product));
     const normalizedDraft = normalizeDraft(draft);
 
     if (state.productFlow) {
@@ -427,7 +513,7 @@ function bindProductModalEvents() {
 
       if (state.productFlow.items.length < state.productFlow.totalQuantity) {
         state.modalDraft = {
-          ...getDefaultDraft(product),
+          ...getDefaultDraft(),
           quantity: state.productFlow.totalQuantity,
           splitItems: true
         };
@@ -454,7 +540,7 @@ function bindProductModalEvents() {
         items: [normalizedDraft]
       };
       state.modalDraft = {
-        ...normalizedDraft,
+        ...getDefaultDraft(),
         quantity: draft.quantity,
         splitItems: true
       };
@@ -483,7 +569,7 @@ function openProductModal(productId, triggerElement) {
 
   state.activeProductId = productId;
   state.productFlow = null;
-  state.modalDraft = getDefaultDraft(product);
+  state.modalDraft = getDefaultDraft();
   renderActiveProductModal();
   openLayer("product", dom.productOverlay, dom.productSheet, triggerElement);
 }
@@ -495,17 +581,12 @@ function openCartPanel(triggerElement) {
 
 function renderDeliveryPrompt() {
   dom.deliverySheet.innerHTML = `
-    <div class="sheet__header">
-      <div>
+    <form class="prompt-form prompt-form--focused" id="deliveryForm">
+      <div class="prompt-form__copy">
         <p class="eyebrow">Antes de ordenar</p>
         <h2 id="deliverySheetTitle">¿Dónde entregamos tu pedido?</h2>
       </div>
-      <button class="icon-button" type="button" data-action="close-delivery" aria-label="Cerrar pedido">
-        Cerrar
-      </button>
-    </div>
 
-    <form class="prompt-form" id="deliveryForm">
       <label class="field" for="deliveryAddressPrompt">
         <span>Lugar de entrega</span>
         <textarea
@@ -517,10 +598,6 @@ function renderDeliveryPrompt() {
           required
           placeholder="Ej: Casa de Mauricio Hoyos, frente al parque">${state.deliveryAddress}</textarea>
       </label>
-
-      <p class="checkout-note">
-        En cuanto confirmes este dato, te llevamos directo a WhatsApp con el pedido ya armado.
-      </p>
 
       <button class="btn btn--primary btn--full" type="submit">
         Ordenar ahora
@@ -621,7 +698,8 @@ function launchExternalUrlWithFallback(primaryUrl, fallbacks) {
 
 function openWhatsAppFlow() {
   if (!state.cart.length) {
-    showToast("Primero agrega al menos una arepa.");
+    showToast("Primero elige al menos una arepa.");
+    focusMenu();
     return;
   }
 
@@ -826,7 +904,7 @@ function bindEvents() {
     }
   });
   dom.deliveryOverlay.addEventListener("click", (event) => {
-    if (event.target === dom.deliveryOverlay || event.target.closest("[data-action='close-delivery']")) {
+    if (event.target === dom.deliveryOverlay) {
       closeDeliveryPrompt();
     }
   });

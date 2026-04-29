@@ -614,6 +614,21 @@ a {
   gap: 14px;
 }
 
+.prompt-form--focused {
+  align-content: center;
+  min-height: min(72vh, 520px);
+}
+
+.prompt-form__copy {
+  display: grid;
+  gap: 8px;
+  text-align: center;
+}
+
+.prompt-form__copy .eyebrow {
+  margin-bottom: 0;
+}
+
 .builder-flow-note,
 .cart-summary__address {
   margin: 0;

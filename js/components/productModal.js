@@ -1,7 +1,7 @@
 import { formatCOP } from "../utils/currency.js";
 
 function renderChoiceChips(name, values, selectedValue, required = false) {
-  return values.map((value, index) => `
+  return values.map((value) => `
     <label class="chip">
       <input
         class="chip__input"
@@ -9,8 +9,7 @@ function renderChoiceChips(name, values, selectedValue, required = false) {
         name="${name}"
         value="${value}"
         ${selectedValue === value ? "checked" : ""}
-        ${required && index === 0 && !selectedValue ? "required" : ""}
-        ${required && selectedValue ? "required" : ""}>
+        ${required ? "required" : ""}>
       <span>${value}</span>
     </label>
   `).join("");
@@ -79,7 +78,7 @@ function renderQuantityControls(draft, flow) {
           </button>
         </div>
 
-        <label class="builder-toggle">
+        <label class="builder-toggle" id="splitItemsToggle" ${draft.quantity > 1 ? "" : "hidden"}>
           <input type="checkbox" name="splitItems" ${draft.splitItems ? "checked" : ""}>
           <span>Quiero personalizar cada una diferente</span>
         </label>
@@ -111,11 +110,11 @@ export function readProductForm(form, additionGroups, product) {
 
   return {
     protein: formData.get("protein") || "",
-    finish: formData.get("finish") || product.finishOptions[0] || "",
-    sauces: formData.getAll("sauce"),
+    finish: formData.get("finish") || "",
+    sauces: formData.getAll("sauce").slice(0, product.maxSauces || Number.POSITIVE_INFINITY),
     additions,
     quantity,
-    splitItems: splitField === "on"
+    splitItems: splitField === "on" && quantity > 1
   };
 }
 
@@ -186,14 +185,14 @@ export function renderProductModal({
           <span>Escoge el cierre fresco</span>
         </div>
         <div class="chip-grid">
-          ${renderChoiceChips("finish", product.finishOptions, draft.finish || product.finishOptions[0], true)}
+          ${renderChoiceChips("finish", product.finishOptions, draft.finish, true)}
         </div>
       </section>
 
       <section class="builder-group">
         <div class="builder-group__header">
           <h3>Salsas</h3>
-          <span>Sin costo adicional</span>
+          <span>${product.maxSauces ? `Máximo ${product.maxSauces}` : "Sin costo adicional"}</span>
         </div>
         <div class="chip-grid">
           ${renderToggleChips("sauce", sauces, draft.sauces)}
