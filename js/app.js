@@ -276,7 +276,9 @@ function syncQuickActions() {
   const totalUnits = countCartUnits(state.cart);
   const shouldShow = totalUnits > 0;
   dom.quickActions.hidden = !shouldShow;
-  dom.heroCartButton.hidden = !shouldShow;
+  if (dom.heroCartButton) {
+    dom.heroCartButton.hidden = !shouldShow;
+  }
 }
 
 function updateCartBadges() {
@@ -486,7 +488,9 @@ function focusMenu() {
       return;
     }
 
-    dom.scrollMenuButton.focus();
+    if (dom.scrollMenuButton instanceof HTMLElement) {
+      dom.scrollMenuButton.focus();
+    }
   }, 180);
 }
 
@@ -962,14 +966,18 @@ function bindEvents() {
   dom.catalogGrid.addEventListener("click", handleCatalogClick);
   dom.cartButton.addEventListener("click", (event) => openCartPanel(event.currentTarget));
   dom.cartFab.addEventListener("click", (event) => openCartPanel(event.currentTarget));
-  dom.heroCartButton.addEventListener("click", (event) => openCartPanel(event.currentTarget));
+  if (dom.heroCartButton) {
+    dom.heroCartButton.addEventListener("click", (event) => openCartPanel(event.currentTarget));
+  }
   dom.orderNowButton.addEventListener("click", (event) => {
     event.preventDefault();
     openWhatsAppFlow();
   });
-  dom.scrollMenuButton.addEventListener("click", () => {
-    dom.catalogGrid.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+  if (dom.scrollMenuButton) {
+    dom.scrollMenuButton.addEventListener("click", () => {
+      dom.catalogGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
   dom.productOverlay.addEventListener("click", (event) => {
     if (event.target === dom.productOverlay || event.target.closest("[data-action='close-product']")) {
       closeProductModal();
