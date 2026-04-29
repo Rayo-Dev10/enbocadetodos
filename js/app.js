@@ -300,6 +300,12 @@ function renderCartPanel() {
   });
 }
 
+function renderCatalogGrid() {
+  dom.catalogGrid.innerHTML = renderCatalog(PRODUCTS, {
+    hasCartItems: state.cart.length > 0
+  });
+}
+
 function renderCheckoutSection() {
   dom.checkoutSection.innerHTML = renderCheckout({
     cart: state.cart,
@@ -317,6 +323,7 @@ function syncCart() {
     window.location.hash = "#/";
   }
 
+  renderCatalogGrid();
   updateCartBadges();
   renderCartPanel();
   renderCheckoutSection();
@@ -1018,7 +1025,7 @@ function bindEvents() {
 }
 
 function init() {
-  dom.catalogGrid.innerHTML = renderCatalog(PRODUCTS);
+  renderCatalogGrid();
   renderCartPanel();
   renderCheckoutSection();
   updateCartBadges();

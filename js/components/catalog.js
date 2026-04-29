@@ -1,6 +1,6 @@
 import { formatCOP } from "../utils/currency.js";
 
-export function renderCatalog(products) {
+export function renderCatalog(products, { hasCartItems = false } = {}) {
   return products.map((product) => `
     <article class="product-card">
       <div class="product-card__visual">
@@ -24,7 +24,7 @@ export function renderCatalog(products) {
           type="button"
           data-action="open-product"
           data-product-id="${product.id}">
-          Personalizar
+          ${hasCartItems ? "Añadir" : "Personalizar"}
         </button>
       </div>
     </article>
