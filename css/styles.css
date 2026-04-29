@@ -976,6 +976,12 @@ button:focus-visible,
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .product-card__footer .btn {
+    width: min(80%, 220px);
+    max-width: 80%;
+    margin-left: auto;
+  }
+
   .quick-actions {
     width: min(calc(100vw - 64px), 600px);
   }
