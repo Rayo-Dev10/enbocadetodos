@@ -6,10 +6,10 @@ function cleanCurrency(value) {
 
 export function buildWhatsAppMessage({ cart, deliveryAddress, business }) {
   const lines = [
-    "🍽️ *NUEVO PEDIDO*",
-    `🏪 *${business.name.toUpperCase()}*`,
+    "*NUEVO PEDIDO*",
+    `*${business.name.toUpperCase()}*`,
     "",
-    "🧾 *Detalle:*",
+    "*Detalle:*",
     ""
   ];
 
@@ -19,32 +19,32 @@ export function buildWhatsAppMessage({ cart, deliveryAddress, business }) {
     const itemTotal = item.subtotal * item.quantity;
     total += itemTotal;
 
-    lines.push(`*${index + 1}) ${item.quantity}x ${item.productName}*`);
+    lines.push(`*${item.quantity}x ${item.productName}*`);
 
     if (item.protein) {
-      lines.push(`🥩 Proteína: ${item.protein}`);
+      lines.push(`- *Proteína:* _${item.protein}_`);
     }
 
     if (item.finish) {
-      lines.push(`🥑 Terminación: ${item.finish}`);
+      lines.push(`- *Terminación:* _${item.finish}_`);
     }
 
     if (item.sauces.length) {
-      lines.push(`🫙 Salsas: ${item.sauces.join(", ")}`);
+      lines.push(`- *Salsas:* _${item.sauces.join(", ")}_`);
     }
 
     if (item.additions.length) {
-      lines.push(`➕ Extras: ${item.additions.map((addition) => addition.name).join(", ")}`);
+      lines.push(`- *Extras:* _${item.additions.map((addition) => addition.name).join(", ")}_`);
     }
 
-    lines.push(`💵 Subtotal: ${cleanCurrency(itemTotal)}`);
+    lines.push(`- *Subtotal:* ${cleanCurrency(itemTotal)}`);
     lines.push("");
   });
 
   lines.push("━━━━━━━━━━━━━━━━━━━━");
-  lines.push(`💰 *TOTAL: ${cleanCurrency(total)}*`);
+  lines.push(`*TOTAL: ${cleanCurrency(total)}*`);
   lines.push("");
-  lines.push(`📍 *ENTREGAR EN:* ${deliveryAddress}`);
+  lines.push(`*ENTREGAR EN:* ${deliveryAddress}`);
 
   return lines.join("\n");
 }
