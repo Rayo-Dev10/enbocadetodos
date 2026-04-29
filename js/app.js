@@ -98,6 +98,10 @@ function clampProductDraft(product, draft) {
   };
 }
 
+function applyDraftToState(product, nextDraft) {
+  state.modalDraft = clampProductDraft(product, nextDraft);
+}
+
 function normalizeDraft(selection) {
   return {
     protein: selection.protein || "",
@@ -377,7 +381,7 @@ function updateProductDraftFromForm(form) {
     return;
   }
 
-  state.modalDraft = clampProductDraft(product, readProductForm(form, ADDITION_GROUPS, product));
+  applyDraftToState(product, readProductForm(form, ADDITION_GROUPS, product));
   const subtotal = calculateSubtotal(product.price, state.modalDraft.additions);
   const flow = getActiveFlowInfo();
   const button = form.querySelector("#addToCartButton");
@@ -398,6 +402,76 @@ function updateProductDraftFromForm(form) {
       splitInput.checked = state.modalDraft.splitItems;
     }
   }
+}
+
+function toggleDraftChip(product, input) {
+  const nextDraft = {
+    ...state.modalDraft,
+    sauces: [...state.modalDraft.sauces],
+    additions: [...state.modalDraft.additions]
+  };
+
+  if (input.type === "radio") {
+    const currentValue = nextDraft[input.name] || "";
+    nextDraft[input.name] = currentValue === input.value ? "" : input.value;
+    applyDraftToState(product, nextDraft);
+    return { changed: true };
+  }
+
+  if (input.type !== "checkbox") {
+    return { changed: false };
+  }
+
+  if (input.name === "sauce") {
+    const alreadySelected = nextDraft.sauces.includes(input.value);
+
+    if (alreadySelected) {
+      nextDraft.sauces = nextDraft.sauces.filter((sauce) => sauce !== input.value);
+      applyDraftToState(product, nextDraft);
+      return { changed: true };
+    }
+
+    const maxSauces = product.maxSauces || Number.POSITIVE_INFINITY;
+    if (nextDraft.sauces.length >= maxSauces) {
+      return {
+        changed: false,
+        message: `Esta arepa permite máximo ${product.maxSauces} salsas.`
+      };
+    }
+
+    nextDraft.sauces.push(input.value);
+    applyDraftToState(product, nextDraft);
+    return { changed: true };
+  }
+
+  if (input.name === "addition") {
+    const addition = ADDITION_GROUPS
+      .flatMap((group) => group.items.map((item) => ({ name: item, price: group.price })))
+      .find((item) => item.name === input.value);
+
+    if (!addition) {
+      return { changed: false };
+    }
+
+    const alreadySelected = nextDraft.additions.some((item) => item.name === addition.name);
+
+    if (alreadySelected) {
+      nextDraft.additions = nextDraft.additions.filter((item) => item.name !== addition.name);
+    } else {
+      nextDraft.additions.push(addition);
+    }
+
+    applyDraftToState(product, nextDraft);
+    return { changed: true };
+  }
+
+  if (input.name === "splitItems") {
+    nextDraft.splitItems = !nextDraft.splitItems;
+    applyDraftToState(product, nextDraft);
+    return { changed: true };
+  }
+
+  return { changed: false };
 }
 
 function focusMenu() {
@@ -432,33 +506,18 @@ function bindProductModalEvents() {
     return;
   }
 
-  form.addEventListener("input", (event) => {
+  form.addEventListener("input", () => {
     updateProductDraftFromForm(form);
   });
   form.addEventListener("change", (event) => {
-    const product = productById.get(state.activeProductId);
     const input = event.target;
 
-    if (!(input instanceof HTMLInputElement) || !product) {
+    if (!(input instanceof HTMLInputElement)) {
       return;
     }
 
-    if (input.type === "checkbox" && input.name === "sauce" && input.checked) {
-      const selectedSauces = form.querySelectorAll('input[name="sauce"]:checked').length;
-      if (product.maxSauces && selectedSauces > product.maxSauces) {
-        input.checked = false;
-        showToast(`Esta arepa permite máximo ${product.maxSauces} salsas.`);
-      }
-    }
-
-    updateProductDraftFromForm(form);
-  });
-  form.addEventListener("pointerdown", (event) => {
-    const chip = event.target.closest(".chip");
-    const input = chip?.querySelector(".chip__input");
-
-    if (input instanceof HTMLInputElement && input.type === "radio") {
-      input.dataset.wasChecked = input.checked ? "true" : "false";
+    if (input.name === "quantity" || input.name === "splitItems") {
+      updateProductDraftFromForm(form);
     }
   });
   form.addEventListener("click", (event) => {
@@ -481,16 +540,14 @@ function bindProductModalEvents() {
       return;
     }
 
-    if (input.type === "radio" && input.dataset.wasChecked === "true") {
-      event.preventDefault();
-      input.checked = false;
-      delete input.dataset.wasChecked;
-      updateProductDraftFromForm(form);
-      return;
+    event.preventDefault();
+    const result = toggleDraftChip(product, input);
+    if (result.message) {
+      showToast(result.message);
     }
-
-    delete input.dataset.wasChecked;
-    updateProductDraftFromForm(form);
+    if (result.changed) {
+      renderActiveProductModal();
+    }
   });
 
   form.addEventListener("submit", (event) => {

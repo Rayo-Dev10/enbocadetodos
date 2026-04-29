@@ -643,6 +643,10 @@ a {
   color: var(--text-soft);
 }
 
+.builder-toggle[hidden] {
+  display: none;
+}
+
 .builder-toggle input {
   width: 18px;
   height: 18px;
