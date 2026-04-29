@@ -633,7 +633,24 @@ function openProductModal(productId, triggerElement) {
 
 function openCartPanel(triggerElement) {
   renderCartPanel();
-  openLayer("cart", dom.cartOverlay, dom.cartSheet, triggerElement);
+
+  if (state.activeLayer && state.activeLayer !== "cart") {
+    closeActiveLayer(false);
+  }
+
+  state.activeLayer = "cart";
+  state.lastFocusedElement = triggerElement || document.activeElement;
+  dom.cartOverlay.hidden = false;
+  document.body.classList.add("body--locked");
+
+  window.requestAnimationFrame(() => {
+    dom.cartOverlay.classList.add("is-open");
+    dom.cartSheet.scrollTop = 0;
+    const focusTarget = dom.cartSheet.querySelector("[data-action='close-cart'], .btn, button");
+    if (focusTarget instanceof HTMLElement) {
+      focusTarget.focus();
+    }
+  });
 }
 
 function renderDeliveryPrompt() {
