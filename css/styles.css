@@ -499,6 +499,10 @@ a {
   transition: opacity var(--transition);
 }
 
+.overlay[hidden] {
+  display: none !important;
+}
+
 .overlay--center {
   align-items: center;
   justify-items: center;

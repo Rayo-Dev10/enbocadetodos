@@ -203,6 +203,7 @@ function openLayer(layerName, overlay, contentElement, triggerElement) {
   state.activeLayer = layerName;
   state.lastFocusedElement = triggerElement || document.activeElement;
   overlay.hidden = false;
+  overlay.removeAttribute("hidden");
   document.body.classList.add("body--locked");
 
   window.requestAnimationFrame(() => {
@@ -218,6 +219,7 @@ function hideOverlay(overlay) {
   overlay.classList.remove("is-open");
   window.setTimeout(() => {
     overlay.hidden = true;
+    overlay.setAttribute("hidden", "");
     if (
       !dom.productOverlay.classList.contains("is-open") &&
       !dom.cartOverlay.classList.contains("is-open") &&
@@ -641,6 +643,7 @@ function openCartPanel(triggerElement) {
   state.activeLayer = "cart";
   state.lastFocusedElement = triggerElement || document.activeElement;
   dom.cartOverlay.hidden = false;
+  dom.cartOverlay.removeAttribute("hidden");
   document.body.classList.add("body--locked");
 
   window.requestAnimationFrame(() => {
